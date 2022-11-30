@@ -1,7 +1,10 @@
-import { combineReducers } from '@reduxjs/toolkit'
+import { combineReducers } from "@reduxjs/toolkit";
+import authReducer from "./modules/auth/authSlice";
+import layoutReducer from "./modules/layout/layoutSlice";
 
-const rootReducer = combineReducers({})
+const rootReducer = combineReducers({
+  auth: authReducer,
+  layout: layoutReducer,
+});
 
-export type RootState = ReturnType<typeof rootReducer>
-
-export default rootReducer
+export default rootReducer;

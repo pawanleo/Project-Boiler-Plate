@@ -1,12 +1,14 @@
-import React,{lazy ,Suspense} from 'react';
+import React, { lazy, Suspense } from 'react';
 import Loader from '../components/layout/Loader';
 
 function App() {
-    return (
-      <Suspense fallback={<Loader/>}>
+    const ReduxContainer = lazy(() => import('./ReduxContainer'));
 
-      </Suspense>
+    return (
+        <Suspense fallback={<Loader />}>
+            <ReduxContainer />
+        </Suspense>
     );
-  }
-  
-  export default App;
+}
+
+export default App;
