@@ -1,17 +1,16 @@
-import { call, fork, take, cancel } from 'redux-saga/effects';
-import requestSuccess from './requestSuccess';
-import requestFailure from './requestFailure';
-
-interface RequestProps{
-    type:(args:any)=>any,
-    data:any,
-    redirect:string,
-    callback:(...args:any)=>any,
-    onSuccess:(...args:any)=>any,
-    body?:{},
-    onFailure:(...args:any)=>any,
-    service :()=>any,
-    params:{}
+import { call, fork, take, cancel } from "redux-saga/effects";
+import requestSuccess from "./requestSuccess";
+import requestFailure from "./requestFailure";
+interface RequestProps {
+  type: (args: any) => any;
+  data: any;
+  redirect: string;
+  callback: (...args: any) => any;
+  onSuccess: (...args: any) => any;
+  body?: {};
+  onFailure: (...args: any) => any;
+  service: (...args: any) => any;
+  params: {};
 }
 function* request({
   type,
@@ -19,12 +18,11 @@ function* request({
   params,
   body,
   redirect,
-  callback ,
-  onSuccess ,
-  onFailure ,
- 
-}:RequestProps) {
-  const response = yield call(service, body);
+  callback,
+  onSuccess,
+  onFailure,
+}: RequestProps) {
+  const response = yield service(body);
 
   if (!response) {
     // TODO: Handle server communication error
@@ -32,7 +30,7 @@ function* request({
     const { status, data } = response;
     if ([200, 201].includes(status)) {
       // If request call is successful
-     
+
       yield call(requestSuccess, {
         type,
         data,
@@ -45,7 +43,6 @@ function* request({
       yield call(requestFailure, { type, data, status, onFailure });
     }
   }
-  
 }
 
 /**
@@ -66,16 +63,5 @@ function* request({
  * @normalizer    (optional) A custom reducer to process API response data before reaching the reducer
  * @cancelId      (optional) A unique id that can be used with cancelable requests. If a cancelId is passed, the request will be canceled next time an identical id is recieved.
  */
-interface CancelRequestProps{
-    cancelId:string,
-    
-}
-function* cancelableRequest({ cancelId, ...rest }:CancelRequestProps) {
-  const myRequest = yield fork(request, rest);
-  if (cancelId) {
-    yield take(`${rest.type}_${cancelId}`);
-    yield cancel(myRequest);
-  }
-}
 
-export default cancelableRequest;
+export default request;
