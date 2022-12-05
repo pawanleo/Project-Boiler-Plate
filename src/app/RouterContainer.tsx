@@ -1,7 +1,8 @@
 
 import React, { lazy, Suspense } from "react";
-import { BrowserRouter } from "react-router-dom";
+import { Router, Routes } from "react-router-dom";
 import Loader from "../components/layout/Loader";
+import { createBrowserHistory } from "history";
 
 
 const AppContainer = lazy(() => import("./AppContainer"));
@@ -11,14 +12,15 @@ const AppContainer = lazy(() => import("./AppContainer"));
  * for the react-router to work correctly
  *
  */
+const history = createBrowserHistory();
 
 const RouterContainer = () => (
 
-    <BrowserRouter >
-        <Suspense fallback={<Loader />}>
-            <AppContainer />
-        </Suspense>
-    </BrowserRouter>
+
+    <Router navigator={history}>   <Suspense fallback={<Loader />}>
+        <AppContainer />
+    </Suspense></Router>
+
 
 );
 export default RouterContainer

@@ -4,7 +4,7 @@ import React from "react";
 import AppLayout from "../components/layout/AppLayout";
 import { Route, Routes } from "react-router-dom";
 
-import { LOGIN_PATH } from "../routing/routes";
+import { HOME_PAGE, LOGIN_PATH } from "../routing/routes";
 import Login from "../Pages/AuthPages/Login";
 
 /**
@@ -17,7 +17,10 @@ const AppContainer = () => {
     return (
         <AppLayout>
             <Routes>
+
                 <Route path={LOGIN_PATH} element={<Login />} />
+                <Route path={HOME_PAGE} element={<Login />} />
+
             </Routes>
         </AppLayout>
     );
